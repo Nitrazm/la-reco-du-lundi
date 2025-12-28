@@ -1,0 +1,366 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>La reco du lundi — Rap français</title>
+  <meta name="description" content="Chaque lundi : une reco rap français (album, morceau, freestyle, clip) + un petit mot perso." />
+
+  <style>
+    :root{
+      --bg: #0b0b14;
+      --card: rgba(255,255,255,.06);
+      --card2: rgba(255,255,255,.08);
+      --text: rgba(255,255,255,.92);
+      --muted: rgba(255,255,255,.68);
+      --line: rgba(255,255,255,.12);
+      --shadow: 0 14px 40px rgba(0,0,0,.45);
+
+      /* gradients “rap” */
+      --g1: linear-gradient(135deg,#ff2bd6 0%,#7c3aed 45%,#22d3ee 100%);
+      --g2: linear-gradient(135deg,#f97316 0%,#ef4444 40%,#a855f7 100%);
+      --g3: linear-gradient(135deg,#22c55e 0%,#06b6d4 55%,#8b5cf6 100%);
+
+      --max: 980px;
+      --r: 22px;
+    }
+
+    *{ box-sizing:border-box; }
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      color:var(--text);
+      background:
+        radial-gradient(1200px 800px at 15% 10%, rgba(124,58,237,.35), transparent 55%),
+        radial-gradient(900px 700px at 85% 15%, rgba(34,211,238,.22), transparent 55%),
+        radial-gradient(1200px 900px at 40% 90%, rgba(255,43,214,.18), transparent 55%),
+        var(--bg);
+      line-height:1.55;
+    }
+
+    a{ color:inherit; }
+    .wrap{ width:min(var(--max), 92vw); margin:0 auto; }
+
+    header{
+      padding: 52px 0 22px;
+    }
+
+    .toprow{
+      display:flex; gap:14px; flex-wrap:wrap; align-items:center;
+    }
+
+    .pill{
+      display:inline-flex;
+      gap:10px;
+      align-items:center;
+      padding: 9px 12px;
+      border:1px solid var(--line);
+      border-radius:999px;
+      background: rgba(255,255,255,.05);
+      backdrop-filter: blur(8px);
+      font-size:14px;
+    }
+
+    .dot{
+      width:10px; height:10px; border-radius:999px;
+      background: var(--g1);
+      box-shadow: 0 0 18px rgba(255,43,214,.55);
+    }
+
+    h1{
+      margin: 16px 0 8px;
+      font-size: clamp(34px, 4.6vw, 56px);
+      letter-spacing: -0.02em;
+    }
+
+    .subtitle{
+      margin:0;
+      color:var(--muted);
+      font-size: clamp(16px, 1.6vw, 19px);
+      max-width: 70ch;
+    }
+
+    nav{
+      margin-top:18px;
+      display:flex; gap:10px; flex-wrap:wrap;
+    }
+    nav a{
+      text-decoration:none;
+      padding: 10px 12px;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.05);
+      transition: transform .08s ease, background .2s ease, border-color .2s ease;
+    }
+    nav a:hover{
+      transform: translateY(-1px);
+      background: rgba(255,255,255,.08);
+      border-color: rgba(255,255,255,.22);
+    }
+
+    main{ padding: 18px 0 54px; }
+
+    .grid{
+      display:grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 14px;
+    }
+    @media (max-width: 900px){
+      .grid{ grid-template-columns: 1fr; }
+    }
+
+    .card{
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--r);
+      box-shadow: var(--shadow);
+      padding: 18px;
+      backdrop-filter: blur(10px);
+    }
+
+    .hero{
+      position:relative;
+      overflow:hidden;
+    }
+    .hero::before{
+      content:"";
+      position:absolute; inset:-2px;
+      background: var(--g2);
+      opacity:.25;
+      filter: blur(24px);
+    }
+    .hero > *{ position:relative; }
+
+    .meta{
+      display:flex; gap:10px; flex-wrap:wrap; align-items:center;
+      color: var(--muted);
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+    .tag{
+      padding: 4px 10px;
+      border-radius: 999px;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.06);
+      color: rgba(255,255,255,.80);
+      font-weight: 650;
+      letter-spacing:.01em;
+    }
+
+    .title{
+      margin: 0 0 8px;
+      font-size: 26px;
+      letter-spacing: -0.01em;
+    }
+
+    .bigline{
+      font-size: 18px;
+      color: rgba(255,255,255,.88);
+      margin: 10px 0 0;
+    }
+
+    .quote{
+      margin-top: 14px;
+      padding: 14px;
+      border-radius: 16px;
+      border: 1px dashed rgba(255,255,255,.25);
+      background: rgba(255,255,255,.04);
+      color: rgba(255,255,255,.86);
+    }
+    .quote .q{
+      font-size: 15px;
+      color: rgba(255,255,255,.86);
+    }
+    .quote .by{
+      margin-top: 8px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .actions{
+      display:flex; gap:10px; flex-wrap:wrap;
+      margin-top: 14px;
+    }
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      text-decoration:none;
+      padding: 11px 14px;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,.18);
+      font-weight: 750;
+      background: rgba(255,255,255,.06);
+      transition: transform .08s ease, background .2s ease, border-color .2s ease;
+    }
+    .btn.primary{
+      background: var(--g1);
+      color: #0b0b14;
+      border-color: transparent;
+    }
+    .btn:hover{ transform: translateY(-1px); background: rgba(255,255,255,.09); border-color: rgba(255,255,255,.28); }
+    .btn.primary:hover{ filter: brightness(1.02); }
+
+    .list{
+      margin: 10px 0 0;
+      padding-left: 18px;
+      color: rgba(255,255,255,.86);
+    }
+    .list li{ margin: 8px 0; }
+
+    .small{ color: var(--muted); font-size: 13px; }
+
+    footer{
+      padding: 26px 0 60px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .divider{
+      height:1px;
+      background: rgba(255,255,255,.12);
+      margin: 14px 0;
+    }
+
+    /* petit “sticker” en coin */
+    .sticker{
+      display:inline-block;
+      padding: 6px 10px;
+      border-radius: 14px;
+      background: rgba(0,0,0,.35);
+      border: 1px solid rgba(255,255,255,.18);
+    }
+  </style>
+</head>
+
+<body>
+  <header class="wrap">
+    <div class="toprow">
+      <span class="pill"><span class="dot"></span> La reco du lundi — <strong>rap français</strong></span>
+      <span class="pill">🎚️ humeur du jour : <span id="mood">énergie</span></span>
+      <span class="pill">📅 <span id="date">—</span></span>
+    </div>
+
+    <h1>Du rap fr, mais pas au hasard.</h1>
+    <p class="subtitle">
+      Chaque lundi je dépose <strong>1 reco</strong> (morceau / album / freestyle / clip)
+      + <strong>un petit mot perso</strong> : pourquoi ça tourne chez moi, à quel moment, et ce que ça raconte.
+    </p>
+
+    <nav>
+      <a href="#reco">🔥 La reco</a>
+      <a href="#archives">📼 Archives</a>
+      <a href="#a-propos">🧢 À propos</a>
+      <a href="#contact">✉️ Contact</a>
+    </nav>
+  </header>
+
+  <main class="wrap">
+    <div class="grid">
+      <!-- RECO DU LUNDI -->
+      <section id="reco" class="card hero">
+        <div class="meta">
+          <span class="tag">Reco #<span id="num">1</span></span>
+          <span class="tag">Format : <span id="format">Morceau</span></span>
+          <span class="tag">Ambiance : <span id="vibe">Nocturne</span></span>
+        </div>
+
+        <h2 class="title">🎧 <span id="title">À remplir : Artiste — Titre</span></h2>
+
+        <p class="bigline">
+          <span class="sticker">Pourquoi j’te la mets :</span>
+          <span id="why">c’est le genre de track qui te remet la tête droite quand la journée part en vrille.</span>
+        </p>
+
+        <div class="quote">
+          <div class="q" id="quote">“(Mets ici une punchline ou une phrase marquante — max 1–2 lignes)”</div>
+          <div class="by" id="quoteBy">— (Artiste)</div>
+        </div>
+
+        <div class="actions">
+          <a class="btn primary" id="linkMain" href="https://example.com" target="_blank" rel="noopener">▶︎ Écouter</a>
+          <a class="btn" id="linkClip" href="https://example.com" target="_blank" rel="noopener">🎬 Voir le clip</a>
+          <a class="btn" href="#archives">📼 Archives</a>
+        </div>
+
+        <div class="divider"></div>
+        <p class="small">
+          ✍️ Astuce : modifie juste les champs en haut (titre, pourquoi, liens, punchline). Le reste ne bouge pas.
+        </p>
+      </section>
+
+      <!-- SIDEBAR -->
+      <aside class="card">
+        <h2 class="title">🎛️ Mini-notes</h2>
+        <ul class="list">
+          <li><strong>Moment idéal :</strong> <span id="moment">dans le métro, casque fort mais pas trop.</span></li>
+          <li><strong>À écouter si tu kiffes :</strong> <span id="ifYouLike">boombap moderne / toplines mélancoliques.</span></li>
+          <li><strong>Petite obs :</strong> <span id="obs">la prod fait 50% du taf, ça tape sans forcer.</span></li>
+        </ul>
+
+        <div class="divider"></div>
+
+        <h2 class="title">🧾 Mode d’emploi</h2>
+        <p class="small">
+          Tu veux poster une nouvelle reco ? Remplace :
+          <br>• <strong>Artiste — Titre</strong>
+          <br>• <strong>Pourquoi</strong>
+          <br>• <strong>Liens</strong>
+          <br>• <strong>Punchline</strong>
+          <br>• Et ajoute une ligne dans <strong>Archives</strong>.
+        </p>
+      </aside>
+    </div>
+
+    <!-- ARCHIVES -->
+    <section id="archives" class="card" style="margin-top:14px;">
+      <h2 class="title">📼 Archives</h2>
+      <p class="small">À chaque nouvelle reco, ajoute une ligne en haut.</p>
+      <ul class="list" id="archiveList">
+        <li><strong>2025-12-28</strong> — (à remplir) Artiste — Titre</li>
+        <li><strong>2025-12-21</strong> — (exemple) Une tape sous-cotée qui tourne en boucle</li>
+        <li><strong>2025-12-14</strong> — (exemple) Un freestyle brut, sans maquillage</li>
+      </ul>
+    </section>
+
+    <!-- A PROPOS -->
+    <section id="a-propos" class="card" style="margin-top:14px;">
+      <h2 class="title">🧢 À propos</h2>
+      <p>
+        Ici c’est simple : je partage du <strong>rap français</strong> que je garde dans ma rotation.
+        Pas de “top 10”, pas de notes. Juste <strong>une reco</strong> + <strong>ce que ça me fait</strong>.
+      </p>
+      <p class="small">
+        Zéro pub, zéro tracking, juste un petit site statique (rapide et gratuit).
+      </p>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="card" style="margin-top:14px;">
+      <h2 class="title">✉️ Contact</h2>
+      <p>
+        Propose une reco / envoie un message :
+        <a href="mailto:contact@larecodulundi.fr">contact@larecodulundi.fr</a>
+      </p>
+      <p class="small">Si tu ne veux pas afficher d’email, supprime cette section.</p>
+    </section>
+  </main>
+
+  <footer class="wrap">
+    © <span id="year"></span> La reco du lundi — rap français
+  </footer>
+
+  <script>
+    // date/année
+    const now = new Date();
+    document.getElementById("year").textContent = now.getFullYear();
+    document.getElementById("date").textContent = now.toLocaleDateString("fr-FR", {
+      weekday: "long", year: "numeric", month: "long", day: "numeric"
+    });
+
+    // petite variation “humeur”
+    const moods = ["énergie", "mélancolie", "rage calme", "soleil froid", "focus", "nostalgie"];
+    document.getElementById("mood").textContent = moods[Math.floor(Math.random()*moods.length)];
+  </script>
+</body>
+</html>
