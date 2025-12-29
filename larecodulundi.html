@@ -510,23 +510,27 @@
       .reveal{ transition: none; }
       .card-genre, .btn, .links a, .play{ transition:none; }
 
-        /* === MOBILE: la page "Choisir" doit pouvoir scroller verticalement === */
+        /* === MOBILE: on garde le swipe horizontal, et on scroll verticalement DANS la page === */
     @media (max-width: 900px){
-      /* le conteneur horizontal ne doit PAS bloquer le scroll vertical */
+    
+      /* Le conteneur horizontal reste horizontal */
       .scroller{
-        overflow-y: auto;              /* <-- on autorise */
-        overscroll-behavior: contain;
-        touch-action: pan-y pan-x;      /* <-- autorise les 2 gestes */
+        overflow-x: auto;
+        overflow-y: hidden;              /* important */
+        touch-action: pan-x;             /* swipe gauche/droite */
       }
     
-      /* la page Choisir peut défiler verticalement */
-      #choose{
-        align-items: flex-start;        /* évite le centrage qui "bloque" */
+      /* Chaque slide devient scrollable verticalement */
+      .page{
+        overflow-y: auto;                /* <-- c'est ça qui débloque */
+        -webkit-overflow-scrolling: touch;
+        touch-action: pan-y;             /* swipe haut/bas dans la slide */
+        align-items: flex-start;         /* évite le centrage */
       }
     
-      #choose .container{
-        height: auto;
-        padding-bottom: 80px;           /* un peu d'air en bas */
+      /* Un peu d’air en bas pour éviter d’être collé */
+      .page .container{
+        padding-bottom: 120px;
       }
     }
     }
