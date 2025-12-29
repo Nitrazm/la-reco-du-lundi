@@ -32,12 +32,18 @@
 
     *{ box-sizing: border-box; }
     html, body{ height:100%; }
+    
     body{
       margin:0;
       font-family: "Space Grotesk", ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
       color: var(--ink);
       background: var(--paper);
       overflow: hidden; /* IMPORTANT: on scrolle dans le container horizontal */
+    }
+    @media (max-width: 900px){
+      body{
+        overflow: auto;  /* mobile */
+      }
     }
 
     /* ===== NAVBAR ===== */
@@ -545,7 +551,7 @@
         <span class="logo" aria-hidden="true"></span>
         <div>
           La reco du lundi
-          <small>sobre • fluide • horizontal</small>
+          <small> Spécialement pour une certaine Alice Poirier </small>
         </div>
       </div>
 
