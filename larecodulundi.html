@@ -511,34 +511,34 @@
       opacity: 1;
       transform: translateY(0);
     }
+@media (prefers-reduced-motion: reduce){
+  .reveal{ transition: none; }
+  .card-genre, .btn, .links a, .play{ transition:none; }
+}
 
-    @media (prefers-reduced-motion: reduce){
-      .reveal{ transition: none; }
-      .card-genre, .btn, .links a, .play{ transition:none; }
-
-        /* === MOBILE: on garde le swipe horizontal, et on scroll verticalement DANS la page === */
-    @media (max-width: 900px){
-    
-      /* Le conteneur horizontal reste horizontal */
-      .scroller{
-        overflow-x: auto;
-        overflow-y: hidden;              /* important */
-        touch-action: pan-x;             /* swipe gauche/droite */
-      }
-    
-      /* Chaque slide devient scrollable verticalement */
-      .page{
-        overflow-y: auto;                /* <-- c'est ça qui débloque */
-        -webkit-overflow-scrolling: touch;
-        touch-action: pan-y;             /* swipe haut/bas dans la slide */
-        align-items: flex-start;         /* évite le centrage */
-      }
-    
-      /* Un peu d’air en bas pour éviter d’être collé */
-      .page .container{
-        padding-bottom: 120px;
-      }
+/* === MOBILE: scroll vertical DANS la page (iPhone) === */
+  @media (max-width: 900px){
+  
+    /* on garde le swipe horizontal pour changer de page */
+    .scroller{
+      overflow-x: auto;
+      overflow-y: hidden;
+      touch-action: pan-x;
     }
+  
+    /* MAIS chaque slide peut scroller verticalement */
+    .page{
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      align-items: flex-start;
+      touch-action: pan-y;
+    }
+  
+    .page .container{
+      padding-bottom: 120px;
+    }
+  }
+    
     }
   </style>
 </head>
