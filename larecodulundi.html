@@ -509,6 +509,26 @@
     @media (prefers-reduced-motion: reduce){
       .reveal{ transition: none; }
       .card-genre, .btn, .links a, .play{ transition:none; }
+
+        /* === MOBILE: la page "Choisir" doit pouvoir scroller verticalement === */
+    @media (max-width: 900px){
+      /* le conteneur horizontal ne doit PAS bloquer le scroll vertical */
+      .scroller{
+        overflow-y: auto;              /* <-- on autorise */
+        overscroll-behavior: contain;
+        touch-action: pan-y pan-x;      /* <-- autorise les 2 gestes */
+      }
+    
+      /* la page Choisir peut défiler verticalement */
+      #choose{
+        align-items: flex-start;        /* évite le centrage qui "bloque" */
+      }
+    
+      #choose .container{
+        height: auto;
+        padding-bottom: 80px;           /* un peu d'air en bas */
+      }
+    }
     }
   </style>
 </head>
