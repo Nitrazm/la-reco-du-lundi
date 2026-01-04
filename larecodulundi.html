@@ -559,6 +559,7 @@
         <a href="#home" data-page="0" class="active">Accueil</a>
         <a href="#choose" data-page="1">Choisir</a>
         <a href="#detail" data-page="2">Détail</a>
+        <a href="#historique" data-page="3">Historique</a>
       </nav>
     </div>
   </header>
@@ -678,6 +679,18 @@
                 <a class="btn" href="#home" data-page="0">Retour accueil</a>
               </div>
             </section>
+          </div>
+        </div>
+      </section>
+
+      <!-- PAGE 4 : HISTORIQUE -->
+      <section class="page" id="historique">
+        <div class="container">
+          <div class="reveal">
+            <h2 class="big">Historique 📅</h2>
+            <p class="sub">Clique une semaine pour voir les recos passées.</p>
+
+            <ul id="historique-list" style="margin-top: 24px; list-style: none; padding: 0;"></ul>
           </div>
         </div>
       </section>
@@ -819,7 +832,7 @@
     setActiveByScroll();
 
     // Si on arrive avec un hash
-    const map = { home:0, choose:1, detail:2 };
+    const map = { home:0, choose:1, detail:2, historique:3};
     const hash = (location.hash || "").replace("#","");
     if (hash && map[hash] !== undefined){
       setTimeout(() => goTo(map[hash]), 50);
@@ -835,5 +848,110 @@
   }
 });
   </script>
+<script>
+async function chargerHistorique() {
+  const liste = document.getElementById("historique-list");
+
+  try {
+    const res = await fetch("recommandations.json");
+    const data = await res.json();
+
+    console.log("Données chargées ✅", data); // <--- ajoute ceci
+
+
+    // Récupère les dates triées du plus récent au plus ancien
+    const dates = Object.keys(data).sort((a, b) => new Date(b) - new Date(a));
+
+    for (const date of dates) {
+      const li = document.createElement("li");
+      const btn = document.createElement("button");
+      btn.textContent = `Reco du ${new Date(date).toLocaleDateString("fr-FR", { weekday: "long", year: "numeric", month: "long", day: "numeric" })}`;
+      btn.className = "btn";
+      btn.dataset.date = date;
+
+      btn.onclick = () => afficherRecoSemaine(date, data[date]);
+      li.appendChild(btn);
+      liste.appendChild(li);
+    }
+  } catch (err) {
+    console.error("Erreur lors du chargement de recommandations.json", err);
+  }
+}
+
+function afficherRecoSemaine(date, recos) {
+  // Supprime la page existante si elle existe
+  const anciennePage = document.getElementById("semaine-dynamique");
+  if (anciennePage) anciennePage.remove();
+
+  const page = document.createElement("section");
+  page.className = "page";
+  page.id = "semaine-dynamique";
+
+  const container = document.createElement("div");
+  container.className = "container";
+
+  const titre = document.createElement("h2");
+  titre.className = "big reveal";
+  titre.textContent = `Reco du ${new Date(date).toLocaleDateString("fr-FR")}`;
+
+  const cards = document.createElement("div");
+  cards.className = "cards reveal";
+
+  recos.forEach(reco => {
+    const card = document.createElement("article");
+    card.className = "card-genre";
+
+    const bg = document.createElement("div");
+    bg.className = "card-bg";
+    bg.style.backgroundImage = `url('${reco.image}')`;
+
+    const inner = document.createElement("div");
+    inner.className = "inner";
+
+    const top = document.createElement("div");
+    top.className = "genre-top";
+    top.innerHTML = `${reco.genre} <span class="chip">${reco.emoji || "♪"}</span>`;
+
+    const title = document.createElement("div");
+    title.className = "t-title";
+    title.textContent = reco.title;
+
+    const artist = document.createElement("div");
+    artist.className = "t-artist";
+    artist.textContent = reco.artist;
+
+    const audio = document.createElement("audio");
+    audio.controls = true;
+    audio.src = reco.audio;
+    audio.style.width = "100%";
+    audio.style.marginTop = "12px";
+
+    inner.append(top, title, artist, audio);
+    card.append(bg, inner);
+    cards.appendChild(card);
+  });
+
+  container.append(titre, cards);
+  page.appendChild(container);
+  document.querySelector(".track").appendChild(page);
+
+  // SCROLL après un petit délai pour garantir que le DOM est prêt
+  setTimeout(() => {
+    const allPages = document.querySelectorAll(".page");
+    const index = Array.from(allPages).findIndex(p => p.id === "semaine-dynamique");
+
+    if (index >= 0) {
+      document.getElementById("scroller").scrollTo({
+        left: index * window.innerWidth,
+        behavior: "smooth"
+      });
+    }
+  }, 100); // 100 ms de délai = plus fiable
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  chargerHistorique();
+});
+</script>
 </body>
 </html>
