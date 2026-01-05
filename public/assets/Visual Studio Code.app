@@ -1,0 +1,957 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>La reco du lundi</title>
+  <meta name="description" content="La reco du lundi — choisis un genre, découvre une reco." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700;900&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      /* === À MODIFIER FACILEMENT === */
+      --home-bg: url("gatew.JPG");
+      /* Mets une image du repo: --home-bg: url("hero.jpg"); */
+
+      /* Couleurs */
+      --ink: #ffffff;
+      --paper: #1b1b1b;
+      --accent: #7a2222; /* bordeaux */
+      --muted: rgba(255, 255, 255, 0.6);
+      --line: rgba(255, 255, 255, 0.12);
+
+      /* UI */
+      --nav-h: 72px;
+      --radius: 26px;
+      --shadow: 0 18px 46px rgba(255, 0, 0, 0.14);
+      --ease: cubic-bezier(.2,.8,.2,1);
+    }
+
+    *{ box-sizing: border-box; }
+    html, body{ height:100%; }
+    
+    body{
+      margin:0;
+      font-family: "Space Grotesk", ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      color: var(--ink);
+      background: var(--paper);
+      overflow: hidden; /* IMPORTANT: on scrolle dans le container horizontal */
+    }
+    @media (max-width: 900px){
+      body{
+        overflow: auto;  /* mobile */
+      }
+    }
+
+    /* ===== NAVBAR ===== */
+    .nav{
+      position: fixed;
+      top:0; left:0; right:0;
+      height: var(--nav-h);
+      z-index: 50;
+      display:flex;
+      align-items:center;
+      background: rgb(0, 0, 0);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      padding: 0 16px;
+    }
+    .nav-inner{
+      width: min(1200px, 94vw);
+      margin: 0 auto;
+      display:flex;
+      align-items:center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap: 10px;
+      font-weight: 900;
+      letter-spacing: -.02em;
+      white-space: nowrap;
+    }
+    .logo{
+      width: 32px; height: 32px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #000000, var(--accent));
+      box-shadow: 0 16px 32px rgba(122,34,34,.20);
+      flex: 0 0 auto;
+    }
+    .brand small{
+      display:block;
+      font-size: 12px;
+      font-weight: 750;
+      color: rgba(255, 255, 255, 0.5);
+      margin-top: -2px;
+      letter-spacing: .01em;
+    }
+
+    .links{
+      display:flex;
+      gap: 8px;
+      align-items:center;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+    .links a{
+      text-decoration:none;
+      color: rgba(255, 255, 255, 0.82);
+      font-weight: 800;
+      font-size: 14px;
+      padding: 10px 12px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      transition: background .18s var(--ease), border-color .18s var(--ease), transform .18s var(--ease);
+    }
+    .links a:hover{
+      background: rgba(122,34,34,.08);
+      border-color: rgba(122,34,34,.18);
+      transform: translateY(-1px);
+    }
+    .links a.active{
+      background: rgba(122,34,34,.12);
+      border-color: rgba(122,34,34,.22);
+    }
+
+    /* ===== CONTENEUR HORIZONTAL ===== */
+    .scroller{
+      position: fixed;
+      top: var(--nav-h);
+      left: 0; right: 0;
+      height: calc(100vh - var(--nav-h));
+      overflow-x: auto;
+      overflow-y: hidden;
+      scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none; /* Firefox */
+      touch-action: pan-x;
+    }
+    .scroller::-webkit-scrollbar{ display:none; }
+
+    .track{
+      height: 100%;
+      display:flex;
+    }
+
+    .page{
+      width: 100vw;
+      height: 100%;
+      scroll-snap-align: center;
+      scroll-snap-stop: always;
+      padding: clamp(18px, 4vw, 46px);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      
+      
+    
+    }
+    .container{
+      width: min(1200px, 94vw);
+      margin: 0 auto;
+    }
+
+    /* ===== PAGE 1 : TRÈS SOBRE ===== */
+    .home{
+      border-radius: var(--radius);
+      overflow:hidden;
+      box-shadow: var(--shadow);
+      min-height: min(560px, calc(100vh - var(--nav-h) - 80px));
+      background-image: var(--home-bg);
+      background-size: cover;
+      background-position: center;
+      position: relative;
+      display:flex;
+      align-items:flex-end;
+      padding: clamp(18px, 3.4vw, 34px);
+      color: white;
+    }
+    .home::before{
+      content:"";
+      position:absolute; inset:0;
+      background: linear-gradient(to top, rgba(0,0,0,.70), rgba(0,0,0,.18));
+    }
+    .home > *{ position: relative; }
+
+    .home h1{
+      margin: 0;
+      font-weight: 950;
+      letter-spacing: -0.03em;
+      line-height: 1.0;
+      font-size: clamp(44px, 6.2vw, 82px);
+    }
+    .home p{
+      margin: 12px 0 0;
+      max-width: 70ch;
+      font-size: clamp(15px, 1.7vw, 18px);
+      opacity: .92;
+      color: rgba(255,255,255,.92);
+    }
+    .home .note{
+      margin-top: 10px;
+      font-size: 13px;
+      opacity: .80;
+    }
+    .home-actions{
+      margin-top: 16px;
+      display:flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding: 12px 14px;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,.22);
+      background: rgba(255,255,255,.10);
+      color: white;
+      font-weight: 900;
+      cursor: pointer;
+      transition: transform .18s var(--ease), background .18s var(--ease);
+      text-decoration:none;
+      user-select:none;
+    }
+    .btn:hover{ transform: translateY(-1px); background: rgba(255,255,255,.16); }
+    .btn.primary{
+      border: 0;
+      background: rgba(255,255,255,.92);
+      color: rgba(0,0,0,.90);
+    }
+
+    /* ===== PAGE 2 : CHOISIS TA RECO ===== */
+    .title-row{
+      display:flex;
+      align-items:flex-end;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+    .title-row h2{
+      margin: 0;
+      font-size: clamp(42px, 5.6vw, 74px);
+      letter-spacing: -0.03em;
+      font-weight: 950;
+      color: var(--accent);
+    }
+    .title-row p{
+      margin: 0 0 10px;
+      max-width: 52ch;
+      color: var(--muted);
+      font-weight: 650;
+    }
+
+    .cards{
+      display:grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+    }
+    @media (max-width: 1050px){
+      .cards{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (max-width: 560px){
+      .cards{ grid-template-columns: 1fr; }
+    }
+
+    .card-genre{
+      background: #050507;
+      border-radius: 28px;
+      min-height: 340px;
+      border: 2px solid rgba(122,34,34,.55);
+      box-shadow: 0 18px 46px rgba(0,0,0,.16);
+      overflow:hidden;
+      cursor:pointer;
+      transition: transform .22s var(--ease), border-color .22s var(--ease);
+      position: relative;
+    }
+    .card-genre:hover{
+      transform: translateY(-4px);
+      border-color: rgba(178,58,58,.75);
+    }
+
+    .card-genre{
+  position: relative;
+  overflow: hidden;
+}
+
+/* fond image */
+.card-genre .card-bg{
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  filter: blur(2px);
+  transform: scale(1.1); /* évite les bords après flou */
+  z-index: 0;
+}
+
+/* overlay sombre pour la lisibilité */
+.card-genre::after{
+  content:"";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(0,0,0,.65),
+    rgba(0,0,0,.35)
+  );
+  z-index: 1;
+}
+
+/* contenu au-dessus */
+.card-genre .inner{
+  position: relative;
+  z-index: 2;
+}
+    
+    .card-genre::before{
+      content:"";
+      position:absolute; inset:-2px;
+      background:
+        radial-gradient(700px 220px at 50% 120%, rgba(178,58,58,.28), transparent 62%),
+        radial-gradient(520px 260px at 0% 0%, rgba(122,34,34,.30), transparent 55%);
+      opacity: 1;
+    }
+    .card-genre .inner{
+      position: relative;
+      height: 100%;
+      padding: 18px;
+      display:flex;
+      flex-direction: column;
+      justify-content: space-between;
+      color:white;
+      gap: 10px;
+    }
+    .genre-top{
+      display:flex;
+      align-items:center;
+      justify-content: space-between;
+      gap: 10px;
+      font-size: 20px;
+      font-weight: 950;
+      letter-spacing: -.01em;
+    }
+    .genre-top span{
+      font-weight: 750;
+      color: rgba(255,255,255,.80);
+    }
+    .chip{
+      display:inline-flex;
+      align-items:center;
+      gap: 8px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.10);
+      font-size: 13px;
+      font-weight: 850;
+      color: rgba(255,255,255,.86);
+      white-space: nowrap;
+    }
+    .q{
+      text-align:center;
+      font-size: 120px;
+      line-height: 1;
+      font-weight: 950;
+      margin: 0;
+      opacity: .96;
+      filter: drop-shadow(0 12px 18px rgba(0,0,0,.35));
+      user-select:none;
+    }
+    .genre-bottom{
+      display:flex;
+      align-items:center;
+      justify-content: space-between;
+      gap: 10px;
+      font-size: 13px;
+      color: rgba(255,255,255,.68);
+      font-weight: 750;
+    }
+    .arrow{
+      width: 36px; height: 36px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.18);
+      background: rgba(255,255,255,.08);
+      display:grid;
+      place-items:center;
+      font-weight: 950;
+    }
+
+    /* ===== PAGE 3 : GENRE CHOISI ===== */
+    .detail{
+      display:grid;
+      grid-template-columns: 340px 1fr;
+      gap: 26px;
+      align-items:start;
+    }
+    @media (max-width: 900px){
+      .detail{ grid-template-columns: 1fr; }
+    }
+
+    .big{
+      margin:0 0 10px;
+      font-size: clamp(50px, 5.8vw, 88px);
+      letter-spacing: -0.04em;
+      font-weight: 950;
+    }
+    .sub{
+      margin:0;
+      color: var(--muted);
+      font-weight: 650;
+      max-width: 70ch;
+      line-height: 1.6;
+    }
+
+    .player{
+      border-radius: 28px;
+      background: var(--accent);
+      color: white;
+      box-shadow: 0 18px 40px rgba(122,34,34,.22);
+      border: 2px solid rgba(0,0,0,.18);
+      padding: 18px;
+      overflow:hidden;
+    }
+    .cover{
+      width:100%;
+      aspect-ratio: 1 / 1;
+      border-radius: 18px;
+      background: linear-gradient(135deg, rgba(0,0,0,.55), rgba(0,0,0,.86));
+      border: 2px solid rgba(0,0,0,.25);
+      display:grid;
+      place-items:center;
+      font-size: 58px;
+      font-weight: 950;
+      margin-bottom: 12px;
+      user-select:none;
+    }
+    .t-title{
+      margin: 2px 0 0;
+      font-weight: 950;
+      letter-spacing:-.02em;
+      font-size: 18px;
+    }
+    .t-artist{
+      margin: 2px 0 0;
+      opacity: .90;
+      font-weight: 750;
+      font-size: 14px;
+    }
+    .play{
+      margin-top: 14px;
+      display:inline-flex;
+      align-items:center;
+      gap: 10px;
+      padding: 12px 14px;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,.22);
+      background: rgba(0,0,0,.26);
+      font-weight: 950;
+      cursor:pointer;
+      user-select:none;
+      transition: transform .18s var(--ease), background .18s var(--ease);
+    }
+    .play:hover{ transform: translateY(-1px); background: rgba(0,0,0,.34); }
+    .tri{
+      width:0; height:0;
+      border-left: 12px solid white;
+      border-top: 8px solid transparent;
+      border-bottom: 8px solid transparent;
+    }
+
+    .box{
+      margin-top: 14px;
+      border-radius: var(--radius);
+      border: 1px solid var(--line);
+      background: white;
+      box-shadow: var(--shadow);
+      padding: 18px;
+    }
+    .box h3{
+      margin:0 0 10px;
+      font-size: 22px;
+      font-weight: 950;
+      letter-spacing:-.02em;
+    }
+    .box p{
+      margin:0;
+      color: rgba(11,11,16,.82);
+      font-weight: 600;
+      line-height: 1.7;
+    }
+    .pills{
+      margin-top: 14px;
+      display:flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .pill{
+      padding: 8px 11px;
+      border-radius: 999px;
+      border: 1px solid rgba(122,34,34,.18);
+      background: rgba(122,34,34,.06);
+      font-weight: 850;
+      color: rgba(122,34,34,.92);
+      font-size: 13px;
+    }
+
+    /* ===== Animations sobres ===== */
+    .reveal{
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity .6s var(--ease), transform .6s var(--ease);
+    }
+    .reveal.on{
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      .reveal{ transition: none; }
+      .card-genre, .btn, .links a, .play{ transition:none; }
+
+        /* === MOBILE: on garde le swipe horizontal, et on scroll verticalement DANS la page === */
+    @media (max-width: 900px){
+    
+      /* Le conteneur horizontal reste horizontal */
+      .scroller{
+        overflow-x: auto;
+        overflow-y: hidden;              /* important */
+        touch-action: pan-x;             /* swipe gauche/droite */
+      }
+    
+      /* Chaque slide devient scrollable verticalement */
+      .page{
+        overflow-y: auto;                /* <-- c'est ça qui débloque */
+        -webkit-overflow-scrolling: touch;
+        touch-action: pan-y;             /* swipe haut/bas dans la slide */
+        align-items: flex-start;         /* évite le centrage */
+      }
+    
+      /* Un peu d’air en bas pour éviter d’être collé */
+      .page .container{
+        padding-bottom: 120px;
+      }
+    }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- NAV -->
+  <header class="nav">
+    <div class="nav-inner">
+      <div class="brand">
+        <span class="logo" aria-hidden="true"></span>
+        <div>
+          La reco du lundi
+          <small> Spécialement pour une certaine Alice Poirier </small>
+        </div>
+      </div>
+
+      <nav class="links" aria-label="Navigation">
+        <a href="#home" data-page="0" class="active">Accueil</a>
+        <a href="#choose" data-page="1">Choisir</a>
+        <a href="#detail" data-page="2">Détail</a>
+        <a href="#historique" data-page="3">Historique</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- HORIZONTAL SCROLLER -->
+  <main class="scroller" id="scroller" aria-label="Pages horizontales">
+    <div class="track" id="track">
+
+      <!-- PAGE 1 -->
+      <section class="page" id="home">
+        <div class="container">
+          <div class="home reveal">
+            <div>
+              <h1>La reco du lundi<br>est là&nbsp;!</h1>
+              <p>Tu l'attendais, il est là, le nouveau format des recos du lundi. Révolutionnaire ! Régales toi j'ai bossé très dur pour que ce merveilleux site voie le jour.
+
+              </p>
+              <div class="home-actions">
+                <a class="btn primary" href="#choose" data-page="1">Choisit une reco wesh t'attends quoi</a>
+
+              </div>
+            
+          </div>
+        </div>
+      </section>
+
+      <!-- PAGE 2 -->
+      <section class="page" id="choose">
+        <div class="container">
+          <div class="title-row reveal">
+            <div>
+              <h2>Choisis ta reco&nbsp;!</h2>
+              <p>Choisis ce que tu veux découvrir. <br> Suspens... <br> (Ca tue ou pas ?)</p>
+            </div>
+          </div>
+
+          <div class="cards reveal" id="cards">
+            <article class="card-genre" data-genre="mystère" data-emoji="?" data-title="Marc" data-artist="MartiMack" data-image = "marc.jpg" data-audio="audio/marc1.wav" data-vibe="Crazy" data-energy="10/10" data-highlight="Marc"
+              data-desc="C'est une bonne surprise avoue. Le retour de marc, ca faisait longtemps et je trouvais important de le remettre au devant de la scène. Un classique à écouter en boucle.">
+              <div class="inner">
+                <div class="genre-top">Genre : <span>mystère</span> <span class="chip">🎲 aléatoire</span></div>
+                <p class="q">?</p>
+                <div class="genre-bottom"><span> Une chance sur deux de tomber sur une saucisse, à toi de voir.</span><span class="arrow">→</span></div>
+              </div>
+            </article>
+
+            <article class="card-genre" data-genre="Jazz" data-emoji="J" data-title="Jammin'" data-artist="Grover Washington Jr." data-image = "jazz.jpg" data-audio="audio/jammin.mp3" data-vibe="chill" data-energy="4/10" data-highlight="Saxophone" data-bg="jazzbg.JPG"
+              data-desc="5 minutes de pur bonheur, Jammin' n'est pas un morceau comme les autres. Débutant par le magnifique saxophone ténor de Grover, Jammin’ n’a pas été pensé comme un tube classique. Tu remarqueras l'absence de structure commune à toutes les musiques, pensé pour faire respirer le groupe pendant les séances de répétition ou de concerts. Issu du même album que mon son préféré, c'est une valeure sûre. ">
+              <div class="card-bg"></div>
+              <div class="inner">
+                <div class="genre-top">Genre : <span>Jazz</span> <span class="chip">🕯️ chill</span></div>
+                <p class="q">?</p>
+                <div class="genre-bottom"><span>T'aimes bien les saxophonistes non ?</span><span class="arrow">→</span></div>
+              </div>
+            </article>
+
+           <article class="card-genre"
+            data-genre="Hip-Hop"
+            data-emoji="HH"
+            data-title="Ciel"
+            data-artist="Nosnow"
+            data-image="ciel.jpg"
+            data-audio="audio/nosnow.mp3"
+            data-vibe="planant"
+            data-energy="6/10"
+            data-highlight="Prod"
+            data-bg="hiphopbg.JPG"
+            data-desc="Une reco originale, ça faisait longtemps ! Un son très court impossible à ne pas aimer. Ce son m'a été recommandé par un bon ami que j'ai rencontré en deuxième année de prépa à St-Just. Je ne suis malheureusement plus en contact avec lui, mais ce son restera un bon souvenir de lui. Je trouve que ce son porte bien son nom : l'instru fait planer et t'envoie dans le ciel bien comme il faut. Mauvais jeu de mots sur CIEL de GIMS à éviter svp.">
+            <div class="card-bg"></div>
+            <div class="inner">
+              <div class="genre-top">Genre : <span>Hip-Hop</span> <span class="chip">🔥 rap</span></div>
+              <p class="q">?</p>
+              <div class="genre-bottom">
+                <span>Tu vas sûrement choisir ça, je préviens, il y aura pas de PLK...</span>
+                <span class="arrow">→</span>
+              </div>
+            </div>
+          </article>
+
+            <article class="card-genre" data-genre="Rock" data-emoji="R" data-title="Take Me Out " data-artist="Polyphony" data-image="poly.JPG" data-audio="audio/takemeout.mp3" data-vibe="FOU" data-energy="100/10" data-highlight="Raph Renia" data-bg="rockbg.jpg"
+              data-desc="Quand je dit POLY vous dites ???? Vous savez très bien. Take Me Out est LE classique du plus grand groupe de musique de la terre. Oui je parle bien de Polyphony. Réécoute ce classique car c'est jamais assez.">
+              <div class="card-bg"></div>
+              <div class="inner">
+                <div class="genre-top">Genre : <span>Rock</span> <span class="chip">⚡ extrêmeeee</span></div>
+                <p class="q">?</p>
+                <div class="genre-bottom"><span>POLYYYY ????</span><span class="arrow">→</span></div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- PAGE 3 -->
+      <section class="page" id="detail">
+        <div class="container">
+          <div class="detail">
+            <aside class="player reveal" aria-label="Carte morceau">
+              <div class="cover" id="cover">?</div>
+              <div class="t-title" id="songTitle">Titre</div>
+              <div class="t-artist" id="songArtist">Artiste</div>
+              <audio id="audioPlayer" controls preload="none" style="width:100%; margin-top:14px;"></audio>
+            </aside>
+
+            <section>
+              <h2 class="big reveal" id="chosenGenre">Genre choisi</h2>
+              <p class="sub reveal"> Présentation très poussée et intéressante</p>
+
+              <div class="box reveal">
+                <h3>Description du morceau</h3>
+                <p id="songDesc">Clique un genre sur la page précédente pour remplir automatiquement cette description.</p>
+
+                <div class="pills" id="pills"></div>
+              </div>
+
+              <div style="margin-top:14px; display:flex; gap:10px; flex-wrap:wrap;" class="reveal">
+                <a class="btn primary" href="#choose" data-page="1">Changer de genre</a>
+                <a class="btn" href="#home" data-page="0">Retour accueil</a>
+              </div>
+            </section>
+          </div>
+        </div>
+      </section>
+
+      <!-- PAGE 4 : HISTORIQUE -->
+      <section class="page" id="historique">
+        <div class="container">
+          <div class="reveal">
+            <h2 class="big">Historique 📅</h2>
+            <p class="sub">Clique une semaine pour voir les recos passées.</p>
+
+            <ul id="historique-list" style="margin-top: 24px; list-style: none; padding: 0;"></ul>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <script>
+    const scroller = document.getElementById("scroller");
+    const pages = Array.from(document.querySelectorAll(".page"));
+    const navLinks = Array.from(document.querySelectorAll(".links a"));
+    const revealEls = Array.from(document.querySelectorAll(".reveal"));
+
+    // Détail page 3
+    const cover = document.getElementById("cover");
+    const chosenGenre = document.getElementById("chosenGenre");
+    const songTitle = document.getElementById("songTitle");
+    const songArtist = document.getElementById("songArtist");
+    const songDesc = document.getElementById("songDesc");
+
+  
+
+    // 1) Scroll vertical -> scroll horizontal (stable, sans transform)
+    // On évite les bugs de centrage : on manipule scrollLeft directement.
+    scroller.addEventListener("wheel", (e) => {
+      // Si l'utilisateur fait Shift+scroll, laisse le comportement natif
+      if (e.shiftKey) return;
+
+      // On transforme le scroll vertical en mouvement horizontal
+      // (trackpad: deltaX existe parfois, on le prend en compte)
+      const dx = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
+
+      // Empêche le scroll “page” du navigateur
+      e.preventDefault();
+      scroller.scrollLeft += dx;
+    }, { passive: false });
+
+    // 2) Navigation menu -> scroll vers la page
+    function goTo(index){
+      const x = index * window.innerWidth;
+      scroller.scrollTo({ left: x, behavior: "smooth" });
+    }
+    navLinks.forEach(a => {
+      a.addEventListener("click", (e) => {
+        e.preventDefault();
+        const i = Number(a.dataset.page);
+        goTo(i);
+      });
+    });
+    document.querySelectorAll('[data-page]').forEach(el => {
+      // boutons internes (accueil)
+      if (el.classList.contains("links")) return;
+      el.addEventListener("click", (e) => {
+        // évite double
+        if (el.tagName.toLowerCase() === "a") e.preventDefault();
+        const i = Number(el.dataset.page);
+        if (!Number.isNaN(i)) goTo(i);
+      });
+    });
+
+    // 3) Active link + reveal au scroll
+    function setActiveByScroll(){
+      const idx = Math.round(scroller.scrollLeft / window.innerWidth);
+      navLinks.forEach(l => l.classList.remove("active"));
+      const active = navLinks.find(l => Number(l.dataset.page) === idx);
+      if (active) active.classList.add("active");
+
+      // reveals : active la page courante
+      pages.forEach((p, i) => {
+        if (i === idx) p.querySelectorAll(".reveal").forEach(r => r.classList.add("on"));
+      });
+    }
+    scroller.addEventListener("scroll", () => {
+      window.requestAnimationFrame(setActiveByScroll);
+    });
+
+    // 4) Click sur une carte -> remplit page 3 + va à la page 3
+    document.getElementById("cards").addEventListener("click", (e) => {
+      const card = e.target.closest(".card-genre");
+      if (!card) return;
+
+      const genre = card.dataset.genre || "Genre choisi";
+      const emoji = card.dataset.emoji || "♪";
+      const title = card.dataset.title || "Titre";
+      const artist = card.dataset.artist || "Artiste";
+      const desc = card.dataset.desc || "Description…";
+      const image = card.dataset.image || ""; 
+      const audioSrc = card.dataset.audio || "";
+      const vibe = card.dataset.vibe || "";
+      const energy = card.dataset.energy || "";
+      const highlight = card.dataset.highlight || "";
+
+      chosenGenre.textContent = "Genre choisi : " + genre;
+      if (image) {
+        cover.textContent = "";
+        cover.style.backgroundImage = `url("${image}")`;
+        cover.style.backgroundSize = "cover";
+        cover.style.backgroundPosition = "center";
+      } else {
+        cover.style.backgroundImage = "";
+        cover.textContent = emoji;
+      }
+      songTitle.textContent = title;
+      songArtist.textContent = artist;
+      songDesc.textContent = desc;
+      const pillsWrap = document.getElementById("pills");
+      pillsWrap.innerHTML = "";
+
+      if (vibe) {
+        pillsWrap.innerHTML += `<span class="pill">vibe : ${vibe}</span>`;
+      }
+      if (energy) {
+        pillsWrap.innerHTML += `<span class="pill">énergie : ${energy}</span>`;
+      }
+      if (highlight) {
+        pillsWrap.innerHTML += `<span class="pill">point fort : ${highlight}</span>`;
+      }
+
+      const audioPlayer = document.getElementById("audioPlayer");
+      if (audioPlayer) {
+        audioPlayer.pause();
+        audioPlayer.removeAttribute("src");
+        audioPlayer.load();
+
+        if (audioSrc) {
+          audioPlayer.src = audioSrc;
+          audioPlayer.load();
+        }
+      }
+
+      // Si tu veux un lien par carte :
+      
+
+      goTo(2);
+    });
+
+    // Init: reveal première page
+    pages[0].querySelectorAll(".reveal").forEach(r => r.classList.add("on"));
+    setActiveByScroll();
+
+    // Si on arrive avec un hash
+    const map = { home:0, choose:1, detail:2, historique:3};
+    const hash = (location.hash || "").replace("#","");
+    if (hash && map[hash] !== undefined){
+      setTimeout(() => goTo(map[hash]), 50);
+    }
+
+    document.querySelectorAll(".card-genre").forEach(card => {
+  const bg = card.dataset.bg;
+  if (!bg) return;
+
+  const bgEl = card.querySelector(".card-bg");
+  if (bgEl) {
+    bgEl.style.backgroundImage = `url("${bg}")`;
+  }
+});
+  </script>
+<script>
+async function chargerHistorique() {
+  const liste = document.getElementById("historique-list");
+
+  try {
+    const res = await fetch("recommandations.json");
+    const data = await res.json();
+
+    console.log("Données chargées ✅", data); // <--- ajoute ceci
+
+
+    // Récupère les dates triées du plus récent au plus ancien
+    const dates = Object.keys(data).sort((a, b) => new Date(b) - new Date(a));
+
+    for (const date of dates) {
+      const li = document.createElement("li");
+      const btn = document.createElement("button");
+      btn.textContent = `Reco du ${new Date(date).toLocaleDateString("fr-FR", { weekday: "long", year: "numeric", month: "long", day: "numeric" })}`;
+      btn.className = "btn";
+      btn.dataset.date = date;
+
+      btn.onclick = () => afficherRecoSemaine(date, data[date]);
+      li.appendChild(btn);
+      liste.appendChild(li);
+    }
+  } catch (err) {
+    console.error("Erreur lors du chargement de recommandations.json", err);
+  }
+}
+
+function afficherRecoSemaine(date, recos) {
+  // Supprime la page existante si elle existe
+  const anciennePage = document.getElementById("semaine-dynamique");
+  if (anciennePage) anciennePage.remove();
+
+  const page = document.createElement("section");
+  page.className = "page";
+  page.id = "semaine-dynamique";
+
+  const container = document.createElement("div");
+  container.className = "container";
+
+  const titre = document.createElement("h2");
+  titre.className = "big reveal";
+  titre.textContent = `Reco du ${new Date(date).toLocaleDateString("fr-FR")}`;
+
+  const cards = document.createElement("div");
+  cards.className = "cards reveal";
+
+  recos.forEach(reco => {
+    const card = document.createElement("article");
+    card.className = "card-genre";
+
+    const bg = document.createElement("div");
+    bg.className = "card-bg";
+    bg.style.backgroundImage = `url('${reco.image}')`;
+
+    const inner = document.createElement("div");
+    inner.className = "inner";
+
+    const top = document.createElement("div");
+    top.className = "genre-top";
+    top.innerHTML = `${reco.genre} <span class="chip">${reco.emoji || "♪"}</span>`;
+
+    const title = document.createElement("div");
+    title.className = "t-title";
+    title.textContent = reco.title;
+
+    const artist = document.createElement("div");
+    artist.className = "t-artist";
+    artist.textContent = reco.artist;
+
+    const audio = document.createElement("audio");
+    audio.controls = true;
+    audio.src = reco.audio;
+    audio.style.width = "100%";
+    audio.style.marginTop = "12px";
+
+    inner.append(top, title, artist, audio);
+    card.append(bg, inner);
+    cards.appendChild(card);
+  });
+
+  container.append(titre, cards);
+  page.appendChild(container);
+  document.querySelector(".track").appendChild(page);
+
+  // SCROLL après un petit délai pour garantir que le DOM est prêt
+  setTimeout(() => {
+    const allPages = document.querySelectorAll(".page");
+    const index = Array.from(allPages).findIndex(p => p.id === "semaine-dynamique");
+
+    if (index >= 0) {
+      document.getElementById("scroller").scrollTo({
+        left: index * window.innerWidth,
+        behavior: "smooth"
+      });
+    }
+  }, 100); // 100 ms de délai = plus fiable
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  chargerHistorique();
+});
+</script>
+</body>
+</html>

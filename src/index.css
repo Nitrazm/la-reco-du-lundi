@@ -1,0 +1,16 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 🎨 Styles globaux */
+body {
+  @apply bg-dark text-light font-sans;
+}
+
+a {
+  @apply text-primary hover:underline;
+}
+
+h1, h2, h3 {
+  @apply font-bold;
+}
