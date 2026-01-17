@@ -4,6 +4,7 @@ import Home from "./pages/Home";
 import Choose from "./pages/Choose";
 import Detail from "./pages/Detail";
 import History from "./pages/History";
+import Week from "./pages/Week";
 
 export default function App() {
   return (
@@ -15,6 +16,7 @@ export default function App() {
           <Route path="/choisir" element={<Choose />} />
           <Route path="/detail/:id" element={<Detail />} />
           <Route path="/historique" element={<History />} />
+          <Route path="/semaine/:id" element={<Week />} />
         </Routes>
       </div>
     </div>

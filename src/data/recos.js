@@ -1,62 +1,59 @@
 const recos = [
   {
     id: 1,
-    name: "Hip-Hop",
+    name: "Classique",
     description:
-      "Une feat électrique entre deux pépites de la new wave. Encore une intru parfaite qui laissent place à une connexion réussie. A ajouter dans ta playlist sur le champ.",
-    tags: ["aléatoire", "surprise"],
+      "Un morceau très personnel, un de mes préférés de Sofiane Pamart. A écouter en travaillant ou en goumin les deux fonctionnent bien.",
     track: {
-      title: "Tous Mes États (feat. La Fève)",
-      artist: "J9ueve",
+      title: "ME",
+      artist: "Sofiane Pamart",
       cover: "/assets/cover1.jpg", // tu mettras ton image ici
-      coverDetail: "/assets/coverbis1.jpg",
-      audio: "/assets/j9ueve.mp3", // ton fichier audio
-      spotify: "https://open.spotify.com/intl-fr/track/1UAEVG3Dpigs1D9AahUgVk?si=10c35075e0994604",
+      coverDetail: "/assets/me.jpg",
+      audio: "/assets/me.mp3", // ton fichier audio
+      spotify: "https://open.spotify.com/intl-fr/track/2n4jgtNldMzxr84esD3jSV?si=8eeb01b42547496b",
     },
   },
   {
     id: 2,
-    name: "Funk",
+    name: "Hip-Hop",
     description:
-      "Encore un classique, le premier son de Jamiroquai que je te partage ici. Impossible de ne pas bouger la tête sur ce son, un vrai tube funk qui traverse les âges.",
-    tags: ["chill", "instru"],
+      "Un classique du rap français, une featuring historique entre un groupe mythique et un daft punk. Tu connaitrais si tu avais regardé le documentaire sur DJ Mehdi.",
     track: {
-      title: "Little L",
-      artist: "Jamiroquai",
-      cover: "/assets/cover2.jpg",
-      coverDetail: "/assets/littlel.jpg",
-      audio: "/assets/littlel.mp3",
-      spotify: "https://open.spotify.com/intl-fr/track/7hhclvecTpNxNNRCk7NUoc?si=3c724041b6e04ebb",
+      title: "113 fout la merde (feat. Thomas Bangalter)",
+      artist: "113",
+      cover: "/assets/hiphop.jpg",
+      coverDetail: "/assets/113.jpg",
+      audio: "/assets/113.mp3",
+      spotify: "https://open.spotify.com/intl-fr/track/0d723mkc6EZKdEnrVub9wW?si=c691d69a01d54979",
     },
   },
   {
     id: 3,
-    name: "Techno",
+    name: "Tech-House",
     description:
-      "Reco à la fois facile et difficle car j'ai tellement de sons Tech enormes à t'envoyer. Celui la il est en boucle dans mes oreilles depuis 2 semaines, un remix parfait du classique d'Earth Wind & Fire. Tapage de pied garanti.",
-    tags: ["planant", "énergie : 6/10", "point fort : prod"],
+      "Un morceau que j'ai saigné en préma, je le mettais a fond pendant les week-ends JE, surement pour ca que tu m'as recal... Mais ca en valait le coup le drop tue sa mère.",
     track: {
-      title: "GROOVY WONDERLAND ",
-      artist: "TOM SANTA",
+      title: "Gimme That Bounce ",
+      artist: "Mau P",
       cover: "/assets/cover3.jpg",
-      coverDetail: "/assets/groovy.jpg",
-      audio: "/assets/GROOVY.mp3",
-      spotify: "https://soundcloud.com/tommy-santa/groovy-wonderland?si=ae499396d41d4f48a04ec2945bf51916&utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing",
+      coverDetail: "/assets/maup.jpg",
+      audio: "/assets/maup.mp3",
+      spotify: "https://open.spotify.com/intl-fr/track/7jURkEKDVEm9sHueqUX0ko?si=bfce4640e64f43be",
     },
   },
   {
     id: 4,
-    name: "Ma première transi",
+    name: "Brainrot",
     description:
-      "Celle la elle est collector. Potliste de la liste bleue, première soirée où je mixe devant des gens, je prépare mon set à l'avance de A à Z, je passe en dernier, à 00h, juste après Térence et je plie un classique dont beaucoup de gens me parlent encore. La naissance d'une légende. Un mélange de House - Pop - Rap qui fonctionne parfaitement. A écouter en entier.",
+      "Du brainrot comme on adore mais je trouve le son tellement lourd.",
     tags: ["extrêmeee", "solo 🔥"],
     track: {
-      title: "Transi",
-      artist: "DJ Marti",
+      title: "Chess (slowed)",
+      artist: "Joyful",
       cover: "/assets/cover4.jpg",
-      coverDetail: "/assets/mix.jpg",
-      audio: "/assets/transi.m4a",
-      
+      coverDetail: "/assets/chess.jpg",
+      audio: "/assets/chess.mp3",
+      spotify: "https://open.spotify.com/intl-fr/track/5mfhZc6AUbfoe6WqV33u4l?si=e2947ff4c3e247e1",
     },
   },
 ];
